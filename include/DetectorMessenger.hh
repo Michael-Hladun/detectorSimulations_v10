@@ -142,6 +142,7 @@ private:
 	G4UIcmdWithAString*         fAddDetectionSystemTrificCmd;
 	G4UIcmdWithAString*         fAddMagnetSystemSpiceCmd;
 	G4UIcmdWithAnInteger*       fAddDetectionSystemPacesCmd;
+	G4UIcmdWithADoubleAndUnit*  fAddDetectionSystemRCMPCmd;
 	G4UIcmdWithAnInteger*       fAddDetectionSystemGriffinHevimetCmd ;
 
 	G4UIcmdWithAnInteger*       fAddDetectionSystemGriffinCustomDetectorCmd ;

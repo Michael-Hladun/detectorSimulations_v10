@@ -2,6 +2,6 @@ DetectionSystemGriffinSuppressed.cc
 DetectorConstructionSuppressed.cc
 testXYZ.cc
 .DS_Store
-/suppressed
+/build
 /src/DetectionSystemGriffinSuppressed.cc
 /src/DetectorConstructionSuppressed.cc

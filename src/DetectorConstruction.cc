@@ -81,6 +81,7 @@
 #include "DetectionSystemSpice.hh"
 #include "DetectionSystemTrific.hh"
 #include "DetectionSystemPaces.hh"
+#include "DetectionSystemRCMP.hh"
 #include "DetectionSystemSodiumIodide.hh"
 #include "DetectionSystemLanthanumBromide.hh"
 #include "ApparatusGenericTarget.hh"
@@ -186,6 +187,7 @@ DetectorConstruction::DetectorConstruction() :
 	fEightPi  = false;
 	fSpice    = false;
 	fPaces    = false;
+	fRCMP     = false;
 	fDescant  = false;
 	fTestcan  = false;
 }
@@ -877,6 +879,19 @@ void DetectorConstruction::AddDetectionSystemPaces(G4int ndet) {
 	pPaces->PlaceDetector(fLogicWorld, ndet) ;
 
 	fPaces = true;
+}
+
+void DetectorConstruction::AddDetectionSystemRCMP(G4double beam_opening) {
+	if(fLogicWorld == nullptr) {
+		Construct();
+	}
+
+	DetectionSystemRCMP* pRCMP = new DetectionSystemRCMP();
+	pRCMP->Build();
+
+	pRCMP->PlaceDetector(fLogicWorld, beam_opening);
+
+	fRCMP = true;
 }
 
 void DetectorConstruction::SetProperties() {

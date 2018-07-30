@@ -63,6 +63,7 @@ class DetectionSystemSceptar;
 class DetectionSystemSpice;
 class DetectionSystemTrific;
 class DetectionSystemPaces;
+class DetectionSystemRCMP;
 class DetectionSystemSodiumIodide;
 class DetectionSystemLanthanumBromide;
 class DetectionSystemBox;
@@ -171,6 +172,7 @@ public:
 
 	void AddDetectionSystemSceptar(G4int ndet);
 	void AddDetectionSystemPaces(G4int ndet);
+	void AddDetectionSystemRCMP(G4double beam_opening);
 	void AddDetectionSystemSpice();
 	void AddDetectionSystemTrific(G4double);
 
@@ -193,6 +195,7 @@ public:
 	G4bool   EightPi()    { return fEightPi;    }
 	G4bool   Spice()      { return fSpice;      }
 	G4bool   Paces()      { return fPaces;      }
+	G4bool   RCMP()       { return fRCMP;       }
 	G4bool   Descant()    { return fDescant;    }
 	G4bool   Testcan()    { return fTestcan;    }
 
@@ -291,6 +294,7 @@ private:
 	G4bool fTestcan;
 	G4bool fSpice;
 	G4bool fPaces;
+	G4bool fRCMP;
 
 	//unordered maps which hold properties of the physical volumes created
 	std::unordered_map<G4VPhysicalVolume*, DetectorProperties> fPropertiesMap;

@@ -53,6 +53,7 @@ const G4int MAXNUMDET           = 20;
 const G4int MAXNUMDETSPICE	= 10;//10 rings
 const G4int MAXNUMSEGSPICE	= 12;//12 segments per ring
 const G4int MAXNUMDETPACES	= 5;
+const G4int MAXNUMDETRCMP  = 1;
 const G4int MAXNUMDETGRIFFIN    = 16;
 const G4int MAXNUMCRYGRIFFIN    = 4;
 const G4int NUMPARTICLETYPES    = 20;
@@ -149,11 +150,13 @@ private:
 
 public:
 	short PacesHistNumbers(int i) { return fPacesHistNumbers[i]; }
+    short RCMPHistNumbers(int i) { return fPacesHistNumbers[i]; }
 	short SpiceHistNumbers(int i) { return fSpiceHistNumbers[i]; }
 	short SpiceAngleHists(int i) { return fSpiceAngleHists[i]; }
 	short AngleDistro(int i) { return fAngleDistro[i]; }
 private:
-	short fPacesHistNumbers[MAXNUMDETPACES+2]; //+2 for edep and sum histos 
+	short fPacesHistNumbers[MAXNUMDETPACES+2]; //+2 for edep and sum histos
+    short fRCMPHistNumbers[MAXNUMDETRCMP+2]; //+2 for edep and sum histos 
 	short fSpiceHistNumbers[MAXNUMDETSPICE*MAXNUMSEGSPICE+2]; //+2 for edep and sum histos 
 	short fSpiceAngleHists[120];
 	short fAngleDistro[10]; //this variable will hold the histogran ID for various beam distribution histograms

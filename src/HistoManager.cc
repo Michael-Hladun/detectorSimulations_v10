@@ -514,6 +514,25 @@ void HistoManager::BookSpiceHistograms() {
 				fPacesHistNumbers[i+2] = fMakeHistogramIndex;
 			}
 		}//if(fPaces)
+
+		if(fDetectorConstruction->RCMP()) {// RCMP detector
+			name  = "RCMP_crystal_edep";
+			MakeHistogram(analysisManager, name,  title, xmin, xmax, nbins);
+			fRCMPHistNumbers[0] = fMakeHistogramIndex;
+
+			name  = "RCMP_crystal_edep_sum";
+			MakeHistogram(analysisManager, name,  title, xmin, xmax, nbins);
+			fRCMPHistNumbers[1] = fMakeHistogramIndex;
+
+			for(G4int i=0; i < MAXNUMDETRCMP; i++) {//[MAXNUMDET];
+				detString = G4intToG4String(i);
+
+				name  = "RCMP_crystal_edep_det" + detString;
+				MakeHistogram(analysisManager, name,  title, xmin, xmax, nbins);
+
+				fRCMPHistNumbers[i+2] = fMakeHistogramIndex;
+			}
+		}//if(fRCMP)
 	}//if(WRITEEDEPHISTOS)
 }
 
