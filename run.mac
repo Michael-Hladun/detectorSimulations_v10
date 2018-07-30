@@ -1,15 +1,76 @@
-# $Id: run.mac 68015 2013-03-13 13:27:27Z gcosmo $
-#
-# Macro file for "AnaEx01.cc"
-# 
-# can be run in batch, without graphic
-# or interactively: Idle> /control/execute run.mac
-#
-/control/verbose 2
-/run/verbose 2
-/event/verbose 0
-/tracking/verbose 0
-#
-/gun/particle e-
-/gun/energy 500 MeV
-/run/beamOn 1000
+/DetSys/phys/SelectPhysics emlivermore
+/process/em/fluo true # atomic dexcitations
+/process/em/auger true # auger electrons
+/process/em/pixe true # particle induced X-ray emission
+
+
+/run/initialize
+/vis/open OGLIQt
+
+
+### VAR
+/DetSys/det/addPaces 5
+#/DetSys/det/addRCMP 10. mm # <--- beam opening width
+/DetSys/app/add8piVacuumChamber
+
+
+/DetSys/det/SetCustomShieldsPresent 0
+/DetSys/det/SetCustomRadialDistance 11 cm
+/DetSys/det/SetCustomExtensionSuppressorLocation 0
+/DetSys/det/includeGriffinHevimet 0
+
+/DetSys/det/SetCustomPosition 1 1 0
+/DetSys/det/addGriffinCustomDetector 1
+/DetSys/det/SetCustomPosition 2 2 0
+/DetSys/det/addGriffinCustomDetector 2
+/DetSys/det/SetCustomPosition 3 3 0
+/DetSys/det/addGriffinCustomDetector 3
+/DetSys/det/SetCustomPosition 4 4 0
+/DetSys/det/addGriffinCustomDetector 4
+/DetSys/det/SetCustomPosition 5 5 0
+/DetSys/det/addGriffinCustomDetector 5
+/DetSys/det/SetCustomPosition 6 6 0
+/DetSys/det/addGriffinCustomDetector 6
+/DetSys/det/SetCustomPosition 7 7 0
+/DetSys/det/addGriffinCustomDetector 7
+/DetSys/det/SetCustomPosition 8 8 0
+/DetSys/det/addGriffinCustomDetector 8
+/DetSys/det/SetCustomPosition 9 9 0
+/DetSys/det/addGriffinCustomDetector 9
+/DetSys/det/SetCustomPosition 10 10 0
+/DetSys/det/addGriffinCustomDetector 10
+/DetSys/det/SetCustomPosition 11 11 0
+/DetSys/det/addGriffinCustomDetector 11
+/DetSys/det/SetCustomPosition 12 12 0
+/DetSys/det/addGriffinCustomDetector 12
+/DetSys/det/SetCustomPosition 13 13 0
+/DetSys/det/addGriffinCustomDetector 13
+/DetSys/det/SetCustomPosition 14 14 0
+/DetSys/det/addGriffinCustomDetector 14
+/DetSys/det/SetCustomPosition 15 15 0
+/DetSys/det/addGriffinCustomDetector 15
+/DetSys/det/SetCustomPosition 16 16 0
+/DetSys/det/addGriffinCustomDetector 16
+
+
+
+######### Drawing Style #########
+/vis/viewer/set/style wireframe 
+/vis/drawVolume
+/vis/scene/endOfEventAction accumulate 50
+/vis/scene/add/trajectories smooth
+/vis/scene/add/volume
+/vis/viewer/set/viewpointThetaPhi 45 60 deg
+#/vis/scene/add/axes
+#/vis/scene/add/scale
+/DetSys/gun/position 0.0 0.0 0.0 mm
+/DetSys/gun/particle gamma
+
+
+
+### VAR
+/DetSys/gun/efficiencyEnergy 5. MeV
+#/gun/particle ion
+#/gun/ion 27 60
+#/grdm/nucleusLimits 60 60 27 27
+/run/beamOn 10000
