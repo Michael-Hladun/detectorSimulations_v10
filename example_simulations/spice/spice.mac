@@ -1,0 +1,147 @@
+### Fully commented example SPICE macro
+### Comment out commands as appropriate
+
+###### Initialiser REQUIRED ######
+/run/initialize ### set up run
+#############################################
+
+###### Physics List ######
+#/DetSys/phys/SelectPhysics emlivermore
+/process/em/fluo false # atomic dexcitations
+/process/em/auger false # auger electrons
+/process/em/pixe false # particle induced X-ray emission
+######Physics List END######################################################
+
+###### Verbosities ######
+### Defines terminal output - useful for debugging
+### 0 = no output, higher integers give greater output
+/control/verbose 2
+/run/verbose 2
+/event/verbose 0
+/tracking/verbose 0
+###### Verbosities END ######
+
+###### Vacuum ######
+/DetSys/world/material Vacuum
+### Set Vacuum in SPICE (i.e. remove air)
+### World contains all geometries
+###### Vacuum END ######
+
+
+###### SPICE Steps ######
+/DetSys/phys/SpiceStepper 0
+### boolean for enabling user step size limits
+### Max step in LayeredTarget will be 10 um
+### Step value can be changed in ApparatusLayeredTarget constructor (in ApparatusLayeredTarget.cc)
+### 
+#/DetSys/world/StepLimit 10 mm
+### Set the maximum world volume step size for electrons
+### Useful for visualizing tracks in field, mostly pointless and slow otherwise
+###
+### A step in GEANT4 refers to the maximum distance, or portion of time,
+### in which a particle can move before it can decay or interact.
+######################## SPICE Steps END ##############################
+
+
+###### SPICE Resolution ######
+/DetSys/det/UseSpiceResolution 0
+### true Apply artificial detector response broadening resolution to histograms
+### false report the detector energy exactly (default)
+###
+### Uses the ApplySpiceRes() subroutine within the FillSpice() subrioutine of EventAction.cc
+### Uses a twin-Gaussian + exponential tail function fitted to experimental data.
+### To update, fit data and modify EventAction.cc 
+###### SPICE Resolution END ######
+
+
+###### Particle Generator ######
+/DetSys/gun/particle e- ### particle type in gun
+
+### Particle Energy ###
+/DetSys/gun/efficiencyEnergy 500 keV
+### Particle Energy End ###
+
+### Particle Origin ###
+### Choose one of the two options
+/DetSys/gun/position 0.0 0.0 -8. mm ### Position of pedestal 'bunny ear' targets
+#/DetSys/gun/position 0.0 0.0 -0.5 mm ### Position of target wheel
+#/DetSys/gun/position 0.0 0.0 -8.2 mm ### Position of "efficiency source"
+###
+### Reads in a file specifying a distribution in Z (relative to /DetSys/gun/position)
+#/Detsys/gun/FileDistro dist.dat
+### see SPICE_help.txt for details
+###
+### Set beamspot xy sigma 0.5 mm equates to 90% through 2 mm
+/DetSys/gun/BeamSpot 0.5 mm
+### Particle Origin End ###
+
+### Particle Direction ###
+### By default particles will be emitted isotropically in 4pi
+### If that is desired comment out all direction options options
+###
+### A point-like beam in a given direction
+#/DetSys/gun/direction 0.0 0.0 -1.0
+###
+### An arbitrary cone between 2 angles
+#/DetSys/gun/coneMinAngle 45.0 deg
+#/DetSys/gun/coneMaxAngle 60.0 deg
+### Distribution is isotropic in solid angle.
+### Remember SPICE is upstream (90-180)
+### Particle Direction End ###
+
+###### Particle Generator END ######
+
+###### Construct SPICE ######
+### /DetSys/app/addSpiceTargetChamber takes a string of options for the setup geometry
+### The default setup is the Z=0 evaporator target wheel with LEL
+### Print out statements will confirm the selected options
+###
+### Concatenate any of the following options:
+### MEL = Build the Medium Energy Lens
+### Empty = Build the empty lens. You should comment out /DetSys/world/TabMagneticField
+### Eff = Build the on-wheel source holder and source used in efficiency calibrations
+### Source = Build the non-target-wheel metal source holder wheel
+### Col = Add the additional collimator to the photon shield
+### Light = Build only the core components needed for electron simulations.
+###
+/DetSys/app/addSpiceTargetChamber MedLiteColEff
+/DetSys/det/addSpiceDetector
+/DetSys/world/TabMagneticField MagneticField3D.MED.TABLE -1 -45 #adding medium-energy lens mag. field
+#/DetSys/world/TabMagneticField MagneticField3D.LOW.TABLE -1 -45 #adding low-energy lens mag. field
+### ENSURE FIELD MATCHES SELECTED OPTIONS
+### Clarification of lens parameters: -1 is the position offset, -45 is the rotation in z
+######### Construct SPICE END #########
+
+
+###### Target Construction ######
+### Adds successive layers to a target
+### Layers are added face to face building upstream (-z)
+### The zeroth layer's downstream face will be flush with
+### the current beam position as defined by '/DetSys/gun/position'.
+###
+### Inputs: Material name, areal density mg/cm2
+### Length (thickness) will be calculated from inputs
+###
+### Simulation does NOT require a target
+### A 'LayeredTarget' may consist of a single layer
+###
+### You may enter negative areal densities to build downstream rather than upstream
+### Ensure ALL layers are negative in that case
+###
+#/DetSys/app/LayeredTargetAddLayer Gold 1.
+#/DetSys/app/LayeredTargetAddLayer G4_Al 5.
+#/DetSys/app/LayeredTargetAddLayer G4_Al 5.
+###
+### When using a LayeredTarget you specify the beam/gun particle emission
+### distributed through a target layer.
+### Enter the index of the layer, starting at 0.
+#/Detsys/gun/TargetLayer 1 
+### Creates uniform emission through the layer
+### Will overide /Detsys/gun/FileDistro
+###### Target Construction End ######
+
+
+###### BEAM-ON ######
+/run/beamOn 1000000 #always final command
+### The number of primary electron events to generate
+###### BEAM-ON END ######
