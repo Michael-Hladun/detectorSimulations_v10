@@ -9,8 +9,8 @@
 
 
 ### VAR
-/DetSys/det/addPaces 5
-#/DetSys/det/addRCMP 10. mm # <--- beam opening width
+#/DetSys/det/addPaces 5
+/DetSys/det/addRCMP 10. mm # <--- beam opening width
 /DetSys/app/add8piVacuumChamber
 
 
@@ -69,8 +69,8 @@
 
 
 ### VAR
-/DetSys/gun/efficiencyEnergy 5. MeV
+/DetSys/gun/efficiencyEnergy 1. MeV
 #/gun/particle ion
 #/gun/ion 27 60
 #/grdm/nucleusLimits 60 60 27 27
-/run/beamOn 10000
+/run/beamOn 1000000

@@ -42,7 +42,7 @@
 
 #include "DetectorConstruction.hh"
 
-const G4int MAXNTCOL            = 15;
+const G4int MAXNTCOL            = 15*3;
 
 const G4bool WRITEEKINHISTOS    = true;//bools needed to write histos
 const G4bool WRITEEDEPHISTOS    = true;
@@ -53,7 +53,7 @@ const G4int MAXNUMDET           = 20;
 const G4int MAXNUMDETSPICE	= 10;//10 rings
 const G4int MAXNUMSEGSPICE	= 12;//12 segments per ring
 const G4int MAXNUMDETPACES	= 5;
-const G4int MAXNUMDETRCMP  = 1;
+const G4int MAXNUMDETRCMP = 6; //6 sided cube
 const G4int MAXNUMDETGRIFFIN    = 16;
 const G4int MAXNUMCRYGRIFFIN    = 4;
 const G4int NUMPARTICLETYPES    = 20;
@@ -126,37 +126,37 @@ private:
 	             G4int nxbins, G4double xmin, G4double xmax,
 	             G4int nybins, G4double ymin, G4double ymax);
 
-	G4String G4intToG4String(G4int value);
+	   G4String G4intToG4String(G4int value);
 
-	DetectorConstruction* fDetectorConstruction;
-	G4bool        fFactoryOn;
-	G4int         fMakeHistogramIndex;
-	G4String      fFileName[2];
+    DetectorConstruction* fDetectorConstruction;
+    G4bool        fFactoryOn;
+    G4int         fMakeHistogramIndex;
+    G4String      fFileName[2];
 
-	G4int         fHistId[MAXHISTO];
-	G4AnaH1*      fHistPt[MAXHISTO];
-	G4AnaH2*      fHistPt2[MAXHISTO];
+    G4int         fHistId[MAXHISTO];
+    G4AnaH1*      fHistPt[MAXHISTO];
+    G4AnaH2*      fHistPt2[MAXHISTO];
 
-	G4int         fNtColId[MAXNTCOL];
-	G4int         fNtColIdHit[MAXNTCOL];
-	G4int         fNtColIdStep[MAXNTCOL];
+    G4int         fNtColId[MAXNTCOL];
+    G4int         fNtColIdHit[MAXNTCOL];
+    G4int         fNtColIdStep[MAXNTCOL];
 
-	G4bool fStepTrackerBool;
-	G4bool fHitTrackerBool;
+    G4int         fNtupleId;
 
-	G4double fBeamEnergy;
-	G4double fBeamTheta;
-	G4double fBeamPhi;
+    G4bool fStepTrackerBool;
+    G4bool fHitTrackerBool;
+
+    G4double fBeamEnergy;
+    G4double fBeamTheta;
+    G4double fBeamPhi;
 
 public:
 	short PacesHistNumbers(int i) { return fPacesHistNumbers[i]; }
-    short RCMPHistNumbers(int i) { return fPacesHistNumbers[i]; }
 	short SpiceHistNumbers(int i) { return fSpiceHistNumbers[i]; }
 	short SpiceAngleHists(int i) { return fSpiceAngleHists[i]; }
 	short AngleDistro(int i) { return fAngleDistro[i]; }
 private:
-	short fPacesHistNumbers[MAXNUMDETPACES+2]; //+2 for edep and sum histos
-    short fRCMPHistNumbers[MAXNUMDETRCMP+2]; //+2 for edep and sum histos 
+	short fPacesHistNumbers[MAXNUMDETPACES+2]; //+2 for edep and sum histos 
 	short fSpiceHistNumbers[MAXNUMDETSPICE*MAXNUMSEGSPICE+2]; //+2 for edep and sum histos 
 	short fSpiceAngleHists[120];
 	short fAngleDistro[10]; //this variable will hold the histogran ID for various beam distribution histograms
@@ -541,6 +541,14 @@ enum HISTONAME
     kSceptarEdepDet17,
     kSceptarEdepDet18,
     kSceptarEdepDet19,
+    kRCMPEdep,
+    kRCMPEdepSum,
+    kRCMPEdepDet0,
+    kRCMPEdepDet1,
+    kRCMPEdepDet2,
+    kRCMPEdepDet3,
+    kRCMPEdepDet4,
+    kRCMPEdepDet5,
     kEightpiCrystalEdep,
     kEightpiCrystalEdepSum,
     kEightpiCrystalEdepDet0,

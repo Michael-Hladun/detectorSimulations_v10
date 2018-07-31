@@ -36,10 +36,10 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//....oooOO0OOooo........ooo2.70OO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 HistoManager::HistoManager(DetectorConstruction* detectorConstruction) {
-	fFileName[0] = "g4out";
+	fFileName[0] = "NAME";
 	fFactoryOn = false;
 
 	// Only fill one NTuple at a time. If fStepTrackerBool is true, then fHitTrackerBool should be false, or vise-versa.
@@ -76,29 +76,62 @@ void HistoManager::Book() {
 	// Open an output file
 	G4bool fileOpen = analysisManager->OpenFile(fFileName[0]); 
 	if(!fileOpen) {
-		G4cout<<"---> HistoManager::book(): cannot open "<<fFileName[1]<<G4endl;
+		G4cout<<"---> HistoManager::Book(): cannot open "<<fFileName[1]<<G4endl;
 		return;
 	}
 
 	///////////////////////////////////////////////////////////////////
-	// Create 1 ntuple
+	// Create 2 ntuples
 	if(fHitTrackerBool) {
-		analysisManager->CreateNtuple("ntuple", "HitTracker");
-		fNtColIdHit[0] = analysisManager->CreateNtupleIColumn("eventNumber");
-		fNtColIdHit[1] = analysisManager->CreateNtupleIColumn("trackID");
-		fNtColIdHit[2] = analysisManager->CreateNtupleIColumn("parentID");
-		fNtColIdHit[3] = analysisManager->CreateNtupleIColumn("stepNumber");
-		fNtColIdHit[4] = analysisManager->CreateNtupleIColumn("particleType");
-		fNtColIdHit[5] = analysisManager->CreateNtupleIColumn("processType");
-		fNtColIdHit[6] = analysisManager->CreateNtupleIColumn("systemID");
-		fNtColIdHit[7] = analysisManager->CreateNtupleIColumn("cryNumber");
-		fNtColIdHit[8] = analysisManager->CreateNtupleIColumn("detNumber");
-		fNtColIdHit[9] = analysisManager->CreateNtupleDColumn("depEnergy");
-		fNtColIdHit[10] = analysisManager->CreateNtupleDColumn("posx");
-		fNtColIdHit[11] = analysisManager->CreateNtupleDColumn("posy");
-		fNtColIdHit[12] = analysisManager->CreateNtupleDColumn("posz");
-		fNtColIdHit[13] = analysisManager->CreateNtupleDColumn("time");
-		fNtColIdHit[14] = analysisManager->CreateNtupleIColumn("targetZ");
+		fNtupleId = analysisManager->CreateNtuple("ntuple", "HitTracker");
+		fNtColIdHit[0] = analysisManager->CreateNtupleIColumn("GRIFF_eventNumber");
+		fNtColIdHit[1] = analysisManager->CreateNtupleIColumn("GRIFF_trackID");
+		fNtColIdHit[2] = analysisManager->CreateNtupleIColumn("GRIFF_parentID");
+		fNtColIdHit[3] = analysisManager->CreateNtupleIColumn("GRIFF_stepNumber");
+		fNtColIdHit[4] = analysisManager->CreateNtupleIColumn("GRIFF_particleType");
+		fNtColIdHit[5] = analysisManager->CreateNtupleIColumn("GRIFF_processType");
+		fNtColIdHit[6] = analysisManager->CreateNtupleIColumn("GRIFF_systemID");
+		fNtColIdHit[7] = analysisManager->CreateNtupleIColumn("GRIFF_cryNumber");
+		fNtColIdHit[8] = analysisManager->CreateNtupleIColumn("GRIFF_detNumber");
+		fNtColIdHit[9] = analysisManager->CreateNtupleDColumn("GRIFF_depEnergy");
+		fNtColIdHit[10] = analysisManager->CreateNtupleDColumn("GRIFF_posx");
+		fNtColIdHit[11] = analysisManager->CreateNtupleDColumn("GRIFF_posy");
+		fNtColIdHit[12] = analysisManager->CreateNtupleDColumn("GRIFF_posz");
+		fNtColIdHit[13] = analysisManager->CreateNtupleDColumn("GRIFF_time");
+		fNtColIdHit[14] = analysisManager->CreateNtupleIColumn("GRIFF_targetZ");
+
+		fNtColIdHit[15] = analysisManager->CreateNtupleIColumn("RCMP_eventNumber");
+		fNtColIdHit[16] = analysisManager->CreateNtupleIColumn("RCMP_trackID");
+		fNtColIdHit[17] = analysisManager->CreateNtupleIColumn("RCMP_parentID");
+		fNtColIdHit[18] = analysisManager->CreateNtupleIColumn("RCMP_stepNumber");
+		fNtColIdHit[19] = analysisManager->CreateNtupleIColumn("RCMP_particleType");
+		fNtColIdHit[20] = analysisManager->CreateNtupleIColumn("RCMP_processType");
+		fNtColIdHit[21] = analysisManager->CreateNtupleIColumn("RCMP_systemID");
+		fNtColIdHit[22] = analysisManager->CreateNtupleIColumn("RCMP_cryNumber");
+		fNtColIdHit[23] = analysisManager->CreateNtupleIColumn("RCMP_detNumber");
+		fNtColIdHit[24] = analysisManager->CreateNtupleDColumn("RCMP_depEnergy");
+		fNtColIdHit[25] = analysisManager->CreateNtupleDColumn("RCMP_posx");
+		fNtColIdHit[26] = analysisManager->CreateNtupleDColumn("RCMP_posy");
+		fNtColIdHit[27] = analysisManager->CreateNtupleDColumn("RCMP_posz");
+		fNtColIdHit[28] = analysisManager->CreateNtupleDColumn("RCMP_time");
+		fNtColIdHit[29] = analysisManager->CreateNtupleIColumn("RCMP_targetZ");
+		
+		fNtColIdHit[30] = analysisManager->CreateNtupleIColumn("Other_eventNumber");
+		fNtColIdHit[31] = analysisManager->CreateNtupleIColumn("Other_trackID");
+		fNtColIdHit[32] = analysisManager->CreateNtupleIColumn("Other_parentID");
+		fNtColIdHit[33] = analysisManager->CreateNtupleIColumn("Other_stepNumber");
+		fNtColIdHit[34] = analysisManager->CreateNtupleIColumn("Other_particleType");
+		fNtColIdHit[35] = analysisManager->CreateNtupleIColumn("Other_processType");
+		fNtColIdHit[36] = analysisManager->CreateNtupleIColumn("Other_systemID");
+		fNtColIdHit[37] = analysisManager->CreateNtupleIColumn("Other_cryNumber");
+		fNtColIdHit[38] = analysisManager->CreateNtupleIColumn("Other_detNumber");
+		fNtColIdHit[39] = analysisManager->CreateNtupleDColumn("Other_depEnergy");
+		fNtColIdHit[40] = analysisManager->CreateNtupleDColumn("Other_posx");
+		fNtColIdHit[41] = analysisManager->CreateNtupleDColumn("Other_posy");
+		fNtColIdHit[42] = analysisManager->CreateNtupleDColumn("Other_posz");
+		fNtColIdHit[43] = analysisManager->CreateNtupleDColumn("Other_time");
+		fNtColIdHit[44] = analysisManager->CreateNtupleIColumn("Other_targetZ");
+
 		analysisManager->FinishNtuple();
 	}
 
@@ -146,23 +179,72 @@ void HistoManager::Save() {
 
 void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ) {
 	if(fHitTrackerBool) {
-		G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-		analysisManager->FillNtupleIColumn(fNtColIdHit[0], eventNumber);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[1], trackID);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[2], parentID);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[3], stepNumber);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[4], particleType);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[5], processType);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[6], systemID);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[7], cryNumber);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[8], detNumber);
-		analysisManager->FillNtupleDColumn(fNtColIdHit[9], depEnergy);
-		analysisManager->FillNtupleDColumn(fNtColIdHit[10], posx);
-		analysisManager->FillNtupleDColumn(fNtColIdHit[11], posy);
-		analysisManager->FillNtupleDColumn(fNtColIdHit[12], posz);
-		analysisManager->FillNtupleDColumn(fNtColIdHit[13], time);
-		analysisManager->FillNtupleIColumn(fNtColIdHit[14], targetZ);
-		analysisManager->AddNtupleRow();
+		if(systemID >= 1000 && systemID <= 1100){
+			//std::cout<< "GRIFFIN\n";
+			G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[0], eventNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[1], trackID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[2], parentID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[3], stepNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[4], particleType);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[5], processType);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[6], systemID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[7], cryNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[8], detNumber);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[9], depEnergy);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[10],posx);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[11],posy);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[12],posz);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[13],time);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[14],targetZ);
+
+			analysisManager->AddNtupleRow();
+		}
+		else if(systemID >= 300 && systemID <= 340){
+			//std::cout<< "RCMP\n";
+			G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[15], eventNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[16], trackID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[17], parentID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[18], stepNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[19], particleType);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[20], processType);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[21], systemID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[22], cryNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[23], detNumber);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[24], depEnergy);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[25], posx);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[26], posy);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[27], posz);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[28], time);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[29], targetZ);
+
+			analysisManager->AddNtupleRow();
+		}
+		else{
+			//std::cout<< "OTHER\n";
+			G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[30], eventNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[31], trackID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[32], parentID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[33], stepNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[34], particleType);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[35], processType);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[36], systemID);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[37], cryNumber);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[38], detNumber);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[39], depEnergy);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[40], posx);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[41], posy);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[42], posz);
+			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[43], time);
+			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[44], targetZ);
+
+			analysisManager->AddNtupleRow();
+		}
 	}
 }
 
@@ -300,6 +382,7 @@ void HistoManager::BookSpiceHistograms() {
 			MakeHistogram(analysisManager, name,  title, xmin, xmax, nbins);
 		}
 	}
+
 
 	if(WRITEEDEPHISTOS) {
 		// Variables and title used for all detectors
@@ -516,21 +599,17 @@ void HistoManager::BookSpiceHistograms() {
 		}//if(fPaces)
 
 		if(fDetectorConstruction->RCMP()) {// RCMP detector
+			
 			name  = "RCMP_crystal_edep";
 			MakeHistogram(analysisManager, name,  title, xmin, xmax, nbins);
-			fRCMPHistNumbers[0] = fMakeHistogramIndex;
-
+			
 			name  = "RCMP_crystal_edep_sum";
 			MakeHistogram(analysisManager, name,  title, xmin, xmax, nbins);
-			fRCMPHistNumbers[1] = fMakeHistogramIndex;
 
 			for(G4int i=0; i < MAXNUMDETRCMP; i++) {//[MAXNUMDET];
 				detString = G4intToG4String(i);
-
 				name  = "RCMP_crystal_edep_det" + detString;
 				MakeHistogram(analysisManager, name,  title, xmin, xmax, nbins);
-
-				fRCMPHistNumbers[i+2] = fMakeHistogramIndex;
 			}
 		}//if(fRCMP)
 	}//if(WRITEEDEPHISTOS)
