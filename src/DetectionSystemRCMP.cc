@@ -175,8 +175,8 @@ G4int DetectionSystemRCMP::SetUpFace() {
 	// Materials
 	// PCB - FR-4 Substrate material (similar to quartz)
 	// Z, A, and rho taken from: http://personalpages.to.infn.it/~tosello/EngMeet/ITSmat/SDD/SDD_G10FR4.html
-	G4Material* mat_PCB = G4Material::GetMaterial("Vacuum");// new G4Material("FR4_substrate", 9.4328, 18.9415*g/mole, 1.80*g/cm3);
-	G4Material* mat_Si = G4Material::GetMaterial("Vacuum");
+	G4Material* mat_PCB = new G4Material("FR4_substrate", 9.4328, 18.9415*g/mole, 1.80*g/cm3);
+	G4Material* mat_Si = G4Material::GetMaterial("Silicon");
 
 	if(!mat_PCB) {
 		G4cout << " ----> Material  FR-4 PCB Substrate not made, cannot build the detector! " << G4endl;

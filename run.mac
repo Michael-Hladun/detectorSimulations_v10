@@ -6,12 +6,14 @@
 
 /run/initialize
 /vis/open OGLIQt
+/DetSys/world/material Vacuum
 
 
-### VAR
+### IMPORTANT
 #/DetSys/det/addPaces 5
-/DetSys/det/addRCMP 10. mm # <--- beam opening width
+#/DetSys/det/addRCMP 10. mm # <--- beam opening width
 /DetSys/app/add8piVacuumChamber
+
 
 
 /DetSys/det/SetCustomShieldsPresent 0
@@ -64,12 +66,16 @@
 #/vis/scene/add/axes
 #/vis/scene/add/scale
 /DetSys/gun/position 0.0 0.0 0.0 mm
+
+
+
+### IMPORTANT
 /DetSys/gun/particle gamma
 
 
 
-### VAR
-/DetSys/gun/efficiencyEnergy 1. MeV
+### IMPORTANT
+/DetSys/gun/efficiencyEnergy 3.5 MeV
 #/gun/particle ion
 #/gun/ion 27 60
 #/grdm/nucleusLimits 60 60 27 27
