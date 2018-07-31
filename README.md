@@ -1,5 +1,5 @@
 detectorSimulations_v10
-===================
+=======================
 
 The detectorSimulations_v10 package contains the Geant4 simulations for GRIFFIN, TIGRESS, and all of their auxiliary detectors.  Please note that in order to respect our non-disclosure agreements, all source containing third party IP have been omitted from this repo, and can be obtained from your colleagues directly at the lab.
 
@@ -12,9 +12,7 @@ version | DOI
 # Setup
 
 ### Requirements
-detectorSimulations is confirmed to run on geant4.10.02 and ROOT 6.04.00. Do not use geant4.10.01 as it has a bug in the gamma de-excitation (see issue #35).
-
-There is a new branch geant4.10.04, which was used to compile the simulation sucessfully against geant4.10.01.p01 (using ROOT 6.10/08). The main (untested) change to the branch is the removal of the explicit use of the obsolete G4FermiBreakup model in PhysListHadon. It has only been tested (so far) with a simulation of one million gamma rays of 1000 keV using only GRIFFIN (with 20 mm delrin). See also issue #40.
+detectorSimulations is confirmed to run on geant4.10.02, geant4.10.04, and ROOT 6.04.00. Do not use geant4.10.01 as it has a bug in the gamma de-excitation (see issue #35).
 
 ### Getting the code
 
@@ -22,23 +20,32 @@ To setup the simulation package on a computer with GEANT4 already present, just 
 
     git clone https://github.com/GRIFFINCollaboration/detectorSimulations_v10.git
     
-Then you'll need to get the files containing our NDA-protected parameters. To do this register on gitlab.com, have your account added to the GRIFFINCollaboration, and register your ssh-keys with gitlab. Then you can run the script SetupSuppressed.sh (in the detectorSimulation_v10 folder). This script can either be run as is, which will install the suppressed files in a sub-folder "suppressed" and create symbolic links in the src directory, or you can give it the path of the directory where you want the suppressed files installed (this directory has to be empty!).
+Then you'll need to get the files containing our Non-Disclosure-Agreement (NDA) protected parameters (the suppressed files). To do this register on gitlab.com, have your account added to the GRIFFINCollaboration, and register your ssh-keys with gitlab. Gitlab has a walkthrough guide on how to register your ssh-keys.
 
-### Building
+Once that is done, you can run the script SetupSuppressed.sh (in the detectorSimulation_v10 folder). This script can either be run as is, which will install the suppressed files in a sub-folder "suppressed" and create symbolic links in the src directory, or you can give it the path of the directory where you want the suppressed files installed (this directory has to be empty!).
+
+### Building and Running
 
 The build process is pretty standard for a geant simulation; in a build directory (ie any clean new directory that isn't the source directory), do 
 
 ```
-cmake path/to/detectorSimulations
+source /usr/local/geant4/geant4.10.04/install/bin/geant4.sh
+
+cd path/to/detectorSimulations/
+mkdir build
+cd build
+cmake ..
 make clean
-make
+make -j6
+
+./Griffinv10
 ```
 
 Keep in mind that cmake does not regenerate all the files it uses every time it runs!  So if something changes and this build process suddenly fails, try deleting the build directory and starting over.
 
 ### Setup FAQ
 
-- Yes, you need both the secret suppressed files AND their unsuppressed equivalents, not just either / or.
+- Yes, you need the secret suppressed files to run this.
 
 
 # Usage
@@ -128,6 +135,7 @@ Whenever an electron or positron is emitted, you can choose to simulate kinemati
 | ``` /DetSys/det/addLanthanumBromide int ``` | Add Detection System LanthanumBromide |  |
 | ``` /DetSys/det/addSceptar int ``` | Add Detection System Sceptar |  |
 | ``` /DetSys/det/addPaces int ``` | Add Detection System Paces |  |
+| ``` /DetSys/det/addRCMP double unit``` | Add Detection System RCMP with specified beam opening width|  |
 
 ### Detector General
 
