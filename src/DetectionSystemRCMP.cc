@@ -116,24 +116,24 @@ G4int DetectionSystemRCMP::PlaceDetector(G4LogicalVolume* expHallLog, G4double b
 	// Moving the DSSD's in any direction:
 	//	{x, y, z}
 	G4double trans[6][3] = {
-		{up_offset - Xmove_over, 			0.*mm, 		r_vec + up_offset + Xmove_up},// 0 - upstream
-		{r_vec + up_offset + Xmove_up,	 	0.*mm, 		up_offset - Xmove_over},// 1 - upstream
-		{0.*mm, 							r_vec, 		0.*mm},// 2 - top
-		{0.*mm, 							-r_vec, 	0.*mm},// 3 - bottom
-		{down_offset, 						0.*mm, 		-r_vec + down_offset},// 4 - downstream
-		{-r_vec + down_offset,				0.*mm, 		down_offset}// 5 - downstream
+		{up_offset - Xmove_over,         0.*mm,       r_vec + up_offset + Xmove_up},// 0 - upstream
+		{r_vec + up_offset + Xmove_up,   0.*mm,       up_offset - Xmove_over},// 1 - upstream
+		{0.*mm,                          r_vec,       0.*mm},// 2 - top
+		{0.*mm,                          -r_vec,      0.*mm},// 3 - bottom
+		{down_offset,                    0.*mm,       -r_vec + down_offset},// 4 - downstream
+		{-r_vec + down_offset,           0.*mm,       down_offset}// 5 - downstream
 	};
 
 
 	// Rotating the cube faces:
 		//{x, y, z}
 	G4double rot[6][3] = {
-		{0.*deg, 	(-Xtheta)*deg, 			90.*deg},
-		{90.0*deg, 	(+Xtheta+270.0)*deg, 	90.0*deg},
-		{0.*deg, 	270.*deg, 				0.*deg},
-		{0.*deg, 	270.*deg, 				0.*deg},
-		{0.*deg, 	180.*deg, 				90.*deg},
-		{90.0*deg, 	90.0*deg, 				90.0*deg}
+		{0.*deg,     (-Xtheta)*deg,         90.*deg},
+		{90.0*deg,   (+Xtheta+270.0)*deg,   90.0*deg},
+		{0.*deg,     270.*deg,              0.*deg},
+		{0.*deg,     270.*deg,              0.*deg},
+		{0.*deg,     180.*deg,                 90.*deg},
+		{90.0*deg,   90.0*deg,              90.0*deg}
 	};
 
 	// Variables which change for each face:

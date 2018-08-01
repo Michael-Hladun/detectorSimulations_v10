@@ -179,10 +179,11 @@ void HistoManager::Save() {
 
 void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ) {
 	if(fHitTrackerBool) {
-		if(systemID >= 1000 && systemID <= 1100){
-			//std::cout<< "GRIFFIN\n";
-			G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
+		G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+		if(systemID >= 1000 && systemID <= 1100){
+			// std::cout<< "GRIFFIN\n";
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[0], eventNumber);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[1], trackID);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[2], parentID);
@@ -198,13 +199,9 @@ void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentI
 			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[12],posz);
 			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[13],time);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[14],targetZ);
-
-			analysisManager->AddNtupleRow();
 		}
 		else if(systemID >= 300 && systemID <= 340){
-			//std::cout<< "RCMP\n";
-			G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-
+			// std::cout<< "RCMP\n";
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[15], eventNumber);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[16], trackID);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[17], parentID);
@@ -220,13 +217,9 @@ void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentI
 			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[27], posz);
 			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[28], time);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[29], targetZ);
-
-			analysisManager->AddNtupleRow();
 		}
 		else{
-			//std::cout<< "OTHER\n";
-			G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-
+			// std::cout<< "OTHER\n";
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[30], eventNumber);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[31], trackID);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[32], parentID);
@@ -242,9 +235,8 @@ void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentI
 			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[42], posz);
 			analysisManager->FillNtupleDColumn(fNtupleId, fNtColIdHit[43], time);
 			analysisManager->FillNtupleIColumn(fNtupleId, fNtColIdHit[44], targetZ);
-
-			analysisManager->AddNtupleRow();
 		}
+		analysisManager->AddNtupleRow();
 	}
 }
 
