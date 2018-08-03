@@ -944,6 +944,7 @@ bool DetectorConstruction::CheckVolumeName(G4String volumeName) {
 	if(volumeName.find("pacesSiliconBlockLog") != G4String::npos) return true;
 	if(volumeName.find("fRCMPSilicon_log") != G4String::npos) return true;
 	if(volumeName.find("fRCMPPCB_log") != G4String::npos) return true;
+	if(volumeName.find("fRCMPConn_log") != G4String::npos) return true;
 	if(volumeName.find("sceptarSquareScintillatorLog") != G4String::npos) return true;
 	if(volumeName.find("sceptarAngledScintillatorLog") != G4String::npos) return true;
 	if(volumeName.find("8piGermaniumBlockLog") != G4String::npos) return true;
@@ -1092,12 +1093,17 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
 	}
 
 	if(volumeName.find("fRCMPSilicon_log") != G4String::npos) {
-		result.systemID = 306;
+		result.systemID = 300;
 		return result;
 	}
 
 	if(volumeName.find("fRCMPPCB_log") != G4String::npos) {
-		result.systemID = 326;
+		result.systemID = 310;
+		return result;
+	}
+
+	if(volumeName.find("fRCMPConn_log") != G4String::npos) {
+		result.systemID = 320;
 		return result;
 	}
 

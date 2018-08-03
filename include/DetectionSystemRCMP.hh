@@ -46,12 +46,14 @@ public:
     // Assembly volumes
     G4AssemblyVolume* fAssembly_Si;
     G4AssemblyVolume* fAssembly_PCB;
+    G4AssemblyVolume* fAssembly_Conn;
     
 private:
     // Logical volumes
     G4LogicalVolume* fRCMPSilicon_log;
     G4LogicalVolume* fRCMPPCB_log;
     G4LogicalVolume* fRCMPPCB_withcut_log;
+    G4LogicalVolume* fRCMPConn_log;
 public:
     // Solid parameters
     G4double fPCB_thickness;
@@ -60,6 +62,9 @@ public:
 
     G4double fSi_thickness;
     G4double fSi_length;
+
+    G4double fConn_inner_rad;
+    G4double fConn_outer_rad;
 
     G4Colour fPCB_colour;
     G4Colour fSi_colour;
