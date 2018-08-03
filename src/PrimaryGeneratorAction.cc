@@ -183,11 +183,17 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 			G4ParticleDefinition* effPart;
 			if(fEffParticle == "electron" || fEffParticle == "e-") {
 				effPart = G4ParticleTable::GetParticleTable()->FindParticle("e-");
-			} else if(fEffParticle == "positron" || fEffParticle == "e+") {
+			}
+			else if(fEffParticle == "positron" || fEffParticle == "e+") {
 				effPart = G4ParticleTable::GetParticleTable()->FindParticle("e+");
-			} else if(fEffParticle == "neutron"){
+			}
+			else if (fEffParticle == "neutron" || fEffParticle == "n0"){
 				effPart = G4ParticleTable::GetParticleTable()->FindParticle("neutron");
-			} else {
+			}
+			else if (fEffParticle == "proton" || fEffParticle == "p+" || fEffParticle == "p"){
+				effPart = G4ParticleTable::GetParticleTable()->FindParticle("proton");
+			}
+			else{
 				effPart = G4ParticleTable::GetParticleTable()->FindParticle("gamma");
 			}
 			fParticleGun->SetParticleDefinition(effPart);

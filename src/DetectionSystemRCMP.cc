@@ -73,14 +73,14 @@ G4int DetectionSystemRCMP::Build() {
 
 G4int DetectionSystemRCMP::PlaceDetector(G4LogicalVolume* expHallLog, G4double beam_opening) {
     // beam_opening is the width the beam enters:
-    if(beam_opening > 60.*mm){
-        std::cout<<"\nBeam opening specified is too large.\n\n";
-        return 0;
-    }
-    if(beam_opening < 0.*mm){
-        std::cout<<"\nBeam opening must be >=0.\n\n";
-        return 0;
-    }
+    // if(beam_opening > 60.*mm){
+    //     std::cout<<"\nBeam opening specified is too large.\n\n";
+    //     return 0;
+    // }
+    // if(beam_opening < 0.*mm){
+    //     std::cout<<"\nBeam opening must be >=0.\n\n";
+    //     return 0;
+    // }
 
     const G4double PI  = 3.141592653589793238463;
     const G4double sin45 = std::sin(45.*PI/180.);
@@ -97,27 +97,28 @@ G4int DetectionSystemRCMP::PlaceDetector(G4LogicalVolume* expHallLog, G4double b
     G4double r_vec = fPCB_length + fPCB_thickness;
  
     // Looping through angles until the specified beam opening width is reached:
-    G4double Xmove_up, Xmove_over, Xbeam_opening;
+    G4double Xmove_up = 0.0*mm;
+    G4double Xmove_over = 0.0*mm;
+    G4double Xbeam_opening = 0.0*mm;
     G4double Xtheta = 0.0;
-    // int counter = 0;
+
+    int counter = 0;
     if(beam_opening > 0.0){
-        if(beam_opening >= 10.) Xtheta = 5.76;
-        if(beam_opening >= 20.) Xtheta = 11.21;
-        if(beam_opening >= 30.) Xtheta = 16.44;
+    	// shorten loops:
+        if(beam_opening >= 10.) Xtheta = 5.;
+        if(beam_opening >= 20.) Xtheta = 10.;
+        if(beam_opening >= 30.) Xtheta = 15.;
         do{
-        Xtheta += 0.1*deg;
-        Xmove_up = std::sin(Xtheta*PI/180.) * fPCB_length;
-        Xmove_over = (fPCB_length * (1.0 - std::cos(Xtheta*PI/180.)))*mm;
-        Xbeam_opening = (std::sqrt(2.) * std::sin(Xtheta*(PI/180.)) * fPCB_length * 2.0) + 2.0 * Xmove_over;
-        // counter++;
+	        Xtheta += 0.01*deg;
+	        Xmove_up = std::sin(Xtheta*PI/180.) * fPCB_length;
+	        Xmove_over = (fPCB_length * (1.0 - std::cos(Xtheta*PI/180.)))*mm;
+	        Xbeam_opening = (sin45 * 4.0 * Xmove_over) + (2.0 * sin45 * 2.0 * Xmove_up);
+	        counter++;
         }while(Xbeam_opening < beam_opening);
-    }else{
-        Xmove_up = 0.0*mm;
-        Xmove_over = 0.0*mm;
     }
-    // std::cout<<"\ncounter: "<<counter<<"\n\n";
-    // std::cout<<"\nXtheta: "<<Xtheta<<"\n\n";
-    // std::cout<<"\nXbeam opening: "<<Xbeam_opening<<"\n\n";
+    //std::cout<<"\ncounter: "<<counter<<"\n\n";
+    std::cout<<"\nXtheta: "<<Xtheta<<"\n\n";
+    std::cout<<"\nXbeam opening: "<<Xbeam_opening<<"\n\n";
         
 
     // Moving the DSSD's in any direction:
@@ -172,7 +173,7 @@ G4int DetectionSystemRCMP::PlaceDetector(G4LogicalVolume* expHallLog, G4double b
     }
 
     // Serial Connector Sphere:
-    G4ThreeVector Ta_Conn;// = G4ThreeVector(27.5*mm, 0.*mm, 0.*mm);// For checking beam opeing width.
+    G4ThreeVector Ta_Conn;// = G4ThreeVector(0.*mm, 0.*mm, 34.5*mm);// For checking beam opeing width.
     G4RotationMatrix* Ra_Conn = new G4RotationMatrix;
     fAssembly_Conn->AddPlacedVolume(fRCMPConn_log, Ta_Conn, Ra_Conn);
     fAssembly_Conn->MakeImprint(expHallLog, Ta_Conn, Ra_Conn);
@@ -218,7 +219,7 @@ G4int DetectionSystemRCMP::SetUpFace() {
     
     // for verifying the cube openings:
     // a box 10 mm across is specified in this comment:
-    // G4Box* Conn = new G4Box("PCB", 10.*mm, fPCB_width, fPCB_thickness);
+    //G4Box* Conn = new G4Box("PCB", 5.*mm, fPCB_width, 60.*mm);
 
     // Vis Attributes
     G4VisAttributes* Si_face_vis_att = new G4VisAttributes(fSi_colour);
