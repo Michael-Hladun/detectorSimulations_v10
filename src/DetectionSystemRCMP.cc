@@ -102,7 +102,7 @@ G4int DetectionSystemRCMP::PlaceDetector(G4LogicalVolume* expHallLog, G4double b
     G4double Xbeam_opening = 0.0*mm;
     G4double Xtheta = 0.0;
 
-    int counter = 0;
+    // int counter = 0;
     if(beam_opening > 0.0){
     	// shorten loops:
         if(beam_opening >= 10.) Xtheta = 5.;
@@ -113,12 +113,12 @@ G4int DetectionSystemRCMP::PlaceDetector(G4LogicalVolume* expHallLog, G4double b
 	        Xmove_up = std::sin(Xtheta*PI/180.) * fPCB_length;
 	        Xmove_over = (fPCB_length * (1.0 - std::cos(Xtheta*PI/180.)))*mm;
 	        Xbeam_opening = (sin45 * 4.0 * Xmove_over) + (2.0 * sin45 * 2.0 * Xmove_up);
-	        counter++;
+	        // counter++;
         }while(Xbeam_opening < beam_opening);
     }
-    //std::cout<<"\ncounter: "<<counter<<"\n\n";
-    std::cout<<"\nXtheta: "<<Xtheta<<"\n\n";
-    std::cout<<"\nXbeam opening: "<<Xbeam_opening<<"\n\n";
+    // std::cout<<"\ncounter: "<<counter<<"\n\n";
+    // std::cout<<"\nXtheta: "<<Xtheta<<"\n\n";
+    // std::cout<<"\nXbeam opening: "<<Xbeam_opening<<"\n\n";
         
 
     // Moving the DSSD's in any direction:
