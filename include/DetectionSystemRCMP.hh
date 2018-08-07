@@ -43,6 +43,13 @@ public:
     DetectionSystemRCMP();
     ~DetectionSystemRCMP();
 
+    // Sphere around RCMP acting as the serial connectors obstructing GRIFFIN:
+    G4bool fserial_sphere = true;
+    
+    const G4double PI  = 3.141592653589793238463;
+    const G4double sin45 = std::sin(45.*PI/180.);
+
+
     // Assembly volumes
     G4AssemblyVolume* fAssembly_Si;
     G4AssemblyVolume* fAssembly_PCB;
@@ -73,6 +80,7 @@ public:
 public:
     G4int Build();
     G4int PlaceDetector(G4LogicalVolume* expHallLog, G4double beam_opening);
+    G4int AddSerialSphere();
 
 // Called from within DetectionSystemRCMP.cc, hence these functions are private, and not public
 private:

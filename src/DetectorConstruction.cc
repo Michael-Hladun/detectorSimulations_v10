@@ -943,8 +943,8 @@ bool DetectorConstruction::CheckVolumeName(G4String volumeName) {
 	if(volumeName.find("TrificGasCell") != G4String::npos) return true;
 	if(volumeName.find("pacesSiliconBlockLog") != G4String::npos) return true;
 	if(volumeName.find("fRCMPSilicon_log") != G4String::npos) return true;
-	//if(volumeName.find("fRCMPPCB_log") != G4String::npos) return true;
-	//if(volumeName.find("fRCMPConn_log") != G4String::npos) return true;
+	// if(volumeName.find("fRCMPPCB_log") != G4String::npos) return true;
+	// if(volumeName.find("fRCMPConn_log") != G4String::npos) return true;
 	if(volumeName.find("sceptarSquareScintillatorLog") != G4String::npos) return true;
 	if(volumeName.find("sceptarAngledScintillatorLog") != G4String::npos) return true;
 	if(volumeName.find("8piGermaniumBlockLog") != G4String::npos) return true;

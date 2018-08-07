@@ -64,8 +64,12 @@ G4int DetectionSystemRCMP::Build() {
     fAssembly_Si = new G4AssemblyVolume();
     fAssembly_Conn = new G4AssemblyVolume();
     // Add a face to the cube.
-    SetUpFace();    
-    
+    SetUpFace();
+
+    if(fserial_sphere == true){
+    	AddSerialSphere();
+    }
+
     return 1;
 }//end ::Build
 
@@ -73,17 +77,14 @@ G4int DetectionSystemRCMP::Build() {
 
 G4int DetectionSystemRCMP::PlaceDetector(G4LogicalVolume* expHallLog, G4double beam_opening) {
     // beam_opening is the width the beam enters:
-    // if(beam_opening > 60.*mm){
-    //     std::cout<<"\nBeam opening specified is too large.\n\n";
-    //     return 0;
-    // }
-    // if(beam_opening < 0.*mm){
-    //     std::cout<<"\nBeam opening must be >=0.\n\n";
-    //     return 0;
-    // }
-
-    const G4double PI  = 3.141592653589793238463;
-    const G4double sin45 = std::sin(45.*PI/180.);
+    if(beam_opening > 60.*mm){
+        std::cout<<"\nBeam opening specified is too large.\n\n";
+        return 0;
+    }
+    if(beam_opening < 0.*mm){
+        std::cout<<"\nBeam opening must be >=0.\n\n";
+        return 0;
+    }
 
     // specify front DSSD offsets from the middle bisection:
     G4double up_offset = 2.0*mm;
@@ -173,10 +174,12 @@ G4int DetectionSystemRCMP::PlaceDetector(G4LogicalVolume* expHallLog, G4double b
     }
 
     // Serial Connector Sphere:
-    G4ThreeVector Ta_Conn;// = G4ThreeVector(0.*mm, 0.*mm, 34.5*mm);// For checking beam opeing width.
-    G4RotationMatrix* Ra_Conn = new G4RotationMatrix;
-    fAssembly_Conn->AddPlacedVolume(fRCMPConn_log, Ta_Conn, Ra_Conn);
-    fAssembly_Conn->MakeImprint(expHallLog, Ta_Conn, Ra_Conn);
+    if(fserial_sphere == true){
+	    G4ThreeVector Ta_Conn;// = G4ThreeVector(0.*mm, 0.*mm, 34.5*mm);// For checking beam opeing width.
+	    G4RotationMatrix* Ra_Conn = new G4RotationMatrix;
+	    fAssembly_Conn->AddPlacedVolume(fRCMPConn_log, Ta_Conn, Ra_Conn);
+	    fAssembly_Conn->MakeImprint(expHallLog, Ta_Conn, Ra_Conn);
+	}
 
     return 1;
 }// end ::PlaceDetector
@@ -214,12 +217,6 @@ G4int DetectionSystemRCMP::SetUpFace() {
         // PCB with cut to produce 2mm border around active Si:
     G4SubtractionSolid* PCB_withcut = new G4SubtractionSolid("PCB_WithCut", PCB_Face, Si_face_for_cut);
 
-        // Sphere around RCMP to act as the serial connectors obstructing GRIFFIN:
-    G4Sphere* Conn = new G4Sphere("Conn", fConn_inner_rad, fConn_outer_rad, 0.*deg, 360.*deg, 0.*deg, 180.*deg);
-    
-    // for verifying the cube openings:
-    // a box 10 mm across is specified in this comment:
-    //G4Box* Conn = new G4Box("PCB", 5.*mm, fPCB_width, 60.*mm);
 
     // Vis Attributes
     G4VisAttributes* Si_face_vis_att = new G4VisAttributes(fSi_colour);
@@ -230,28 +227,48 @@ G4int DetectionSystemRCMP::SetUpFace() {
     PCB_face_vis_att->SetVisibility(true);
     PCB_face_vis_att->SetForceSolid(true);
 
-    G4VisAttributes* Conn_face_vis_att = new G4VisAttributes(fPCB_colour);
-    Conn_face_vis_att->SetVisibility(true);
-    Conn_face_vis_att->SetForceSolid(false);
-
 
     // Logical Volumes
         // PCB with cut added as logical volume:
     if(fRCMPPCB_log == NULL) {
         fRCMPPCB_log = new G4LogicalVolume(PCB_withcut, mat_PCB, "fRCMPPCB_log");
         fRCMPPCB_log->SetVisAttributes(PCB_face_vis_att);
-        //std::cout<<"HELLO fRCMPPCB_log\n";
     }
     if(fRCMPSilicon_log == NULL) {
         fRCMPSilicon_log = new G4LogicalVolume(Si_face, mat_Si, "fRCMPSilicon_log");
         fRCMPSilicon_log->SetVisAttributes(Si_face_vis_att);
-        //std::cout<<"HELLO fRCMPSilicon_log\n";
     }
+    
+    return 1;
+}// end ::end SetUpFace
+
+
+// Sphere around RCMP acting as the serial connectors obstructing GRIFFIN:
+G4int DetectionSystemRCMP::AddSerialSphere() {
+
+	// Materials
+    // PCB - FR-4 Substrate material (similar to quartz)
+    // Z, A, and rho taken from: http://personalpages.to.infn.it/~tosello/EngMeet/ITSmat/SDD/SDD_G10FR4.html
+    G4Material* mat_PCB = new G4Material("FR4_substrate", 9.4328, 18.9415*g/mole, 1.80*g/cm3);
+
+    if(!mat_PCB) {
+        G4cout << " ----> Material  FR-4 PCB Substrate not made, cannot build the detector! " << G4endl;
+        return 0;
+    }
+
+    G4Sphere* Conn = new G4Sphere("Conn", fConn_inner_rad, fConn_outer_rad, 0.*deg, 360.*deg, 0.*deg, 180.*deg);
+    
+    // for verifying the cube's beam and tape openings:
+    // G4Box* Conn = new G4Box("PCB", 5.*mm, fPCB_width, 60.*mm);
+
+    G4VisAttributes* Conn_face_vis_att = new G4VisAttributes(fPCB_colour);
+    Conn_face_vis_att->SetVisibility(true);
+    Conn_face_vis_att->SetForceSolid(false);
+
     if(fRCMPConn_log == NULL) {
         fRCMPConn_log = new G4LogicalVolume(Conn, mat_PCB, "fRCMPConn_log");
         fRCMPConn_log->SetVisAttributes(Conn_face_vis_att);
-        //std::cout<<"HELLO fRCMPConn_log\n";
     }
-
-    return 1;
-}// end ::end SetUpFace
+	
+	return 1;
+}// end ::end AddSerialSphere
