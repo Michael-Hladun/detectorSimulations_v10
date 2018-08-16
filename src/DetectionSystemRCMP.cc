@@ -40,7 +40,7 @@ DetectionSystemRCMP::DetectionSystemRCMP() :
     fPCB_length = (67.975 / 2.)*mm;
     fPCB_width = (67.975 / 2.)*mm;
 
-    fSi_thickness = (1.5 / 2.)*mm;
+    fSi_thickness = (1.5 / 2.)*mm;// can be purchased from 1.0mm - 1.5 mm
     fSi_length = (63.96 / 2.)*mm;
 
     fConn_inner_rad = (150. / 2.)*mm;

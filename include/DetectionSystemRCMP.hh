@@ -44,7 +44,7 @@ public:
     ~DetectionSystemRCMP();
 
     // Sphere around RCMP acting as the serial connectors obstructing GRIFFIN:
-    G4bool fserial_sphere = true;
+    G4bool fserial_sphere = false;
     
     const G4double PI  = 3.141592653589793238463;
     const G4double sin45 = std::sin(45.*PI/180.);
